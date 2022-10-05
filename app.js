@@ -17,14 +17,13 @@ const InitializeDBAndServer = async() => {
             filename: dbpath,
             driver: sqlite3.Database,
         });
+        app.listen(3000, () => {
+        console.log(`Server Running at http;//localhost:3000`);
+        });
     } catch(e) {
         console.log(`DBError: ${e.message}`);
         process.exit(1);
-    }
-
-    return app.listen(3000, () => {
-        console.log("Server Running as http;//localhost:3000");
-    });
+    };
 };
 
 InitializeDBAndServer();
@@ -67,13 +66,13 @@ app.get('/players/', async(request, response) => {
 app.post('/players/', async(request, response) => {
     const playerDetails = request.body;
 
-    const { player_name, jersey_number, role } = playerDetails;
+    const { playerName, jerseyNumber, role } = playerDetails;
 
     const addPlayerQuery = `
     INSERT INTO
       cricket_team (player_name, jersey_number, role)
     VALUES
-      ('${player_name}', '${jersey_number}', '${role}');`;
+      ('${playerName}', '${jerseyNumber}', '${role}');`;
 
     const dbResponse = await db.run(addPlayerQuery);
 
@@ -103,18 +102,18 @@ app.get("/players/:playerId/", async(request, response) => {
 
 // Update Player Details API
 app.put("/players/:playerId/", async(request, response) => {
-    const {playerId} = request.params;
+    const { playerId } = request.params;
 
     const playerDetails = request.body;
 
-    const { player_name, jersey_number, role } = playerDetails
+    const { playerName, jerseyNumber, role } = playerDetails
 
     const updatePlayerQuery = `
     UPDATE
       cricket_team
     SET
-      player_name = '${player_name}',
-      jersey_number = '${jersey_number}',
+      player_name = '${playerName}',
+      jersey_number = '${jerseyNumber}',
       role = '${role}'
     WHERE
       player_id = ${playerId};`;
