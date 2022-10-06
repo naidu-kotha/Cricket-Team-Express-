@@ -11,14 +11,14 @@ let db = null;
 
 
 // Initialization
-const InitializeDBAndServer = async() => {
+const initializeDBAndServer = async() => {
     try {
         db = await open({
             filename: dbpath,
             driver: sqlite3.Database,
         });
         app.listen(3000, () => {
-        console.log(`Server Running at http;//localhost:3000`);
+        console.log("Server Running at http://localhost:3000");
         });
     } catch(e) {
         console.log(`DBError: ${e.message}`);
@@ -26,7 +26,7 @@ const InitializeDBAndServer = async() => {
     };
 };
 
-InitializeDBAndServer();
+initializeDBAndServer();
 
 // Convert DB Object to Response Object
 const convertDbObjectToResponseObject = (dbObject) => {
